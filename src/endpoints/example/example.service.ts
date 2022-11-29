@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { CachingService } from "@elrondnetwork/erdnest";
 import { QueryPagination } from "src/common/entities/query.paginations";
-import { Constants } from "@elrondnetwork/erdnest";
 import { Example } from "./entities/example";
 import { ExampleFilter } from "./entities/example.filter";
+import { CacheInfo } from "src/utils/cache.info";
 
 @Injectable()
 export class ExampleService {
@@ -30,15 +30,15 @@ export class ExampleService {
   }
 
   async getAllExamples(): Promise<Example[]> {
-    return this.cachingService.getOrSetCache(
-      'examples',
+    return await this.cachingService.getOrSetCache(
+      CacheInfo.Examples.key,
       async () => await this.getAllExamplesRaw(),
-      Constants.oneHour()
+      CacheInfo.Examples.ttl
     );
   }
 
   async getAllExamplesRaw(): Promise<Example[]> {
-    return new Promise(resolve => {
+    return await new Promise(resolve => {
       resolve([
         {
           "id": "magna",
