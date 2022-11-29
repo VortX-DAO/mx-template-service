@@ -14,7 +14,7 @@ import { SocketAdapter } from './websockets/socket.adapter';
 import cookieParser from 'cookie-parser';
 import { CacheWarmerModule } from './crons/cache.warmer/cache.warmer.module';
 import { TransactionProcessorModule } from './crons/transaction.processor/transaction.processor.module';
-import { LoggingInterceptor, CachingInterceptor, CachingService, LoggerInitializer, MetricsService, JwtAuthenticateGlobalGuard } from '@elrondnetwork/erdnest';
+import { LoggingInterceptor, CachingInterceptor, LoggerInitializer, MetricsService, JwtAuthenticateGlobalGuard, ElrondCachingService } from '@elrondnetwork/erdnest';
 import { PubSubListenerModule } from './common/pubsub/pub.sub.listener.module';
 import { ErdnestConfigServiceImpl } from './common/api-config/erdnest.config.service.impl';
 
@@ -41,7 +41,7 @@ async function bootstrap() {
   globalInterceptors.push(new LoggingInterceptor(metricsService));
 
   if (apiConfigService.getUseCachingInterceptor()) {
-    const cachingService = publicApp.get<CachingService>(CachingService);
+    const cachingService = publicApp.get<ElrondCachingService>(ElrondCachingService);
 
     const cachingInterceptor = new CachingInterceptor(
       cachingService,

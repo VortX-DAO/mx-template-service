@@ -8,6 +8,7 @@ import { CacheWarmerService } from './cache.warmer.service';
   imports: [
     ScheduleModule.forRoot(),
     EndpointsServicesModule,
+    DynamicModuleUtils.getCachingModule(),
   ],
   providers: [
     DynamicModuleUtils.getPubSubService(),

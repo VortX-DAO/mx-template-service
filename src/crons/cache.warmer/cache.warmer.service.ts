@@ -2,14 +2,13 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { ClientProxy } from "@nestjs/microservices";
 import { ExampleService } from "src/endpoints/example/example.service";
-import { Lock } from "@elrondnetwork/erdnest";
-import { CachingService } from "@elrondnetwork/erdnest";
+import { ElrondCachingService, Lock } from "@elrondnetwork/erdnest";
 import { CacheInfo } from "src/utils/cache.info";
 
 @Injectable()
 export class CacheWarmerService {
   constructor(
-    private readonly cachingService: CachingService,
+    private readonly cachingService: ElrondCachingService,
     @Inject('PUBSUB_SERVICE') private clientProxy: ClientProxy,
     private readonly exampleService: ExampleService,
   ) { }
@@ -23,7 +22,7 @@ export class CacheWarmerService {
 
   private async invalidateKey<T>(key: string, data: T, ttl: number) {
     await Promise.all([
-      this.cachingService.setCache(key, data, ttl),
+      this.cachingService.set(key, data, ttl),
       this.deleteCacheKey(key),
     ]);
   }

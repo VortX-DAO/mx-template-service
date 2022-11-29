@@ -3,7 +3,7 @@ import { TransactionProcessor } from "@elrondnetwork/transaction-processor";
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { ApiConfigService } from "src/common/api-config/api.config.service";
-import { CachingService, Locker } from "@elrondnetwork/erdnest";
+import { ElrondCachingService, Locker } from "@elrondnetwork/erdnest";
 import { ApiMetricsService } from "src/common/metrics/api.metrics.service";
 import { CacheInfo } from "src/utils/cache.info";
 
@@ -14,7 +14,7 @@ export class TransactionProcessorService {
 
   constructor(
     private readonly apiConfigService: ApiConfigService,
-    private readonly cachingService: CachingService,
+    private readonly cachingService: ElrondCachingService,
     private readonly metricsService: ApiMetricsService,
   ) {
     this.logger = new Logger(TransactionProcessorService.name);
@@ -31,11 +31,11 @@ export class TransactionProcessorService {
           this.logger.log(`Received ${transactions.length} transactions on shard ${shardId} and nonce ${nonce}. Time left: ${statistics.secondsLeft}`);
         },
         getLastProcessedNonce: async (shardId) => {
-          return await this.cachingService.getCache<number>(CacheInfo.TransactionProcessorShardNonce(shardId).key);
+          return await this.cachingService.getRemote<number>(CacheInfo.TransactionProcessorShardNonce(shardId).key);
         },
         setLastProcessedNonce: async (shardId, nonce) => {
           this.metricsService.setLastProcessedNonce(shardId, nonce);
-          await this.cachingService.setCache<number>(CacheInfo.TransactionProcessorShardNonce(shardId).key, nonce, CacheInfo.TransactionProcessorShardNonce(shardId).ttl);
+          await this.cachingService.setRemote<number>(CacheInfo.TransactionProcessorShardNonce(shardId).key, nonce, CacheInfo.TransactionProcessorShardNonce(shardId).ttl);
         },
       });
     });
