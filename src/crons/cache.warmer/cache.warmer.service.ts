@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Cron } from "@nestjs/schedule";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import { ClientProxy } from "@nestjs/microservices";
 import { ExampleService } from "src/endpoints/example/example.service";
 import { Locker } from "@elrondnetwork/erdnest";
@@ -14,7 +14,7 @@ export class CacheWarmerService {
     private readonly exampleService: ExampleService,
   ) { }
 
-  @Cron('* * * * *')
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async handleExampleInvalidations() {
     await Locker.lock('Example invalidations', async () => {
       const examples = await this.exampleService.getAllExamplesRaw();
