@@ -18,10 +18,13 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
     // EndpointsControllersModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ["./**/*.graphql"],
+      typePaths: ['./**/*.graphql'],
+      installSubscriptionHandlers: true,
+      playground: true,
+      introspection: true,
       definitions: {
-        path: join(process.cwd(), "src/graphql/graphql.ts"),
-        outputAs: "class",
+        path: join(process.cwd(), 'src/graphql/graphql.ts'),
+        outputAs: 'class',
         emitTypenameField: true,
       },
     }),
