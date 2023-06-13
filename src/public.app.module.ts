@@ -10,6 +10,7 @@ import { LoggingModule } from "@multiversx/sdk-nestjs";
 
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { AddressCustomScalar } from "./graphql/scalars/AddressCustom";
 
 @Module({
   imports: [
@@ -18,18 +19,18 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
     // EndpointsControllersModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.graphql'],
-      installSubscriptionHandlers: true,
-      playground: true,
-      introspection: true,
+      typePaths: ["./**/*.graphql"],
       definitions: {
-        path: join(process.cwd(), 'src/graphql/graphql.ts'),
-        outputAs: 'class',
+        path: join(process.cwd(), "src/graphql/graphql.ts"),
+        outputAs: "class",
         emitTypenameField: true,
       },
     }),
   ],
-  providers: [DynamicModuleUtils.getNestJsApiConfigService()],
+  providers: [
+    DynamicModuleUtils.getNestJsApiConfigService(),
+    AddressCustomScalar,
+  ],
   exports: [EndpointsServicesModule],
 })
 export class PublicAppModule { }

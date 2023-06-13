@@ -30,6 +30,15 @@ export class ApiConfigService {
     return contractAddress;
   }
 
+  getContractAddresses(): Record<string, any> {
+    const contractAddresses =
+      this.configService.get<Record<string, any>>(`wallet`);
+    if (!contractAddresses) {
+      throw new Error("No getContractAddresses present");
+    }
+    return contractAddresses;
+  }
+
   getSwaggerUrls(): string[] {
     const swaggerUrls = this.configService.get<string[]>("urls.swagger");
     if (!swaggerUrls) {
