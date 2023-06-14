@@ -20,11 +20,18 @@ export class DynamicModuleUtils {
   static getCachingModule(): DynamicModule {
     return CachingModule.forRootAsync({
       imports: [ApiConfigModule],
-      useFactory: (apiConfigService: ApiConfigService) => new CachingModuleOptions({
-        url: apiConfigService.getRedisUrl(),
-        poolLimit: apiConfigService.getPoolLimit(),
-        processTtl: apiConfigService.getProcessTtl(),
-      }),
+      useFactory: (apiConfigService: ApiConfigService) => {
+        const redisUri = apiConfigService.getRedisUrl().split(":");
+        const redisHost = redisUri[0];
+        const redisPort = redisUri.length > 1 ? parseInt(redisUri[1]) : 6379;
+
+        return new CachingModuleOptions({
+          url: redisHost,
+          port: redisPort,
+          poolLimit: apiConfigService.getPoolLimit(),
+          processTtl: apiConfigService.getProcessTtl(),
+        })
+      },
       inject: [ApiConfigService],
     });
   }
@@ -53,11 +60,14 @@ export class DynamicModuleUtils {
     return {
       provide: 'PUBSUB_SERVICE',
       useFactory: (apiConfigService: ApiConfigService) => {
+        const redisUri = apiConfigService.getRedisUrl().split(":");
+        const redisHost = redisUri[0];
+        const redisPort = redisUri.length > 1 ? parseInt(redisUri[1]) : 6379;
         const clientOptions: ClientOptions = {
           transport: Transport.REDIS,
           options: {
-            host: apiConfigService.getRedisUrl(),
-            port: 6379,
+            host: redisHost,
+            port: redisPort,
             retryDelay: 1000,
             retryAttempts: 10,
             retryStrategy: () => 1000,
