@@ -11,6 +11,7 @@ import { LoggingModule } from "@multiversx/sdk-nestjs";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { AddressCustomScalar } from "./graphql/scalars/AddressCustom";
+import { BufferCustomScalar } from "./graphql/scalars/BufferCustom";
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AddressCustomScalar } from "./graphql/scalars/AddressCustom";
   providers: [
     DynamicModuleUtils.getNestJsApiConfigService(),
     AddressCustomScalar,
+    BufferCustomScalar,
   ],
   exports: [EndpointsServicesModule],
 })

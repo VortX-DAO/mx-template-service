@@ -1,23 +1,18 @@
 /* eslint-disable eol-last */
-import { Address } from "@multiversx/sdk-core/out";
 import { Scalar, CustomScalar } from "@nestjs/graphql";
 import { Kind } from "graphql";
 
-@Scalar("AddressCustom", (type) => Address)
-export class AddressCustomScalar implements CustomScalar<string, Address> {
+@Scalar("BufferCustom", (type) => Buffer)
+export class BufferCustomScalar implements CustomScalar<string, Buffer> {
   description = "Address custom type";
 
-  parseValue(value: unknown): Address {
-    return Address.fromString(value as string); // value from the client
+  parseValue(value: unknown): Buffer {
+    return Buffer.from(value as string, "hex"); // value from the client
   }
 
   serialize(value: any): string {
-    // return value.bech32();
-    if (typeof value.bech32 !== "function") {
-      return value.bech32;
-    } else {
-      return value.bech32();
-    }
+    const buffer = Buffer.from(value);
+    return "0x" + buffer.toString("hex");
   }
 
   parseLiteral(ast: any) {
