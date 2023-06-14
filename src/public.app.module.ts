@@ -21,6 +21,9 @@ import { BufferCustomScalar } from "./graphql/scalars/BufferCustom";
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],
+      installSubscriptionHandlers: true,
+      playground: true,
+      introspection: true,
       definitions: {
         path: join(process.cwd(), "src/graphql/graphql.ts"),
         outputAs: "class",
