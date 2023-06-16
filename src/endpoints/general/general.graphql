@@ -10,3 +10,7 @@ type Contract {
   name: String
   address: String
 }
+
+type GQLAddress {
+  bech32: String
+}
