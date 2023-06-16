@@ -123,6 +123,29 @@ async function bootstrap() {
     const queueWorkerApp = await NestFactory.create(QueueWorkerModule);
     await queueWorkerApp.listen(8000);
   }
+
+  const logger = new Logger("Bootstrapper");
+
+  LoggerInitializer.initialize(logger);
+
+  const contract_loader = new ContractLoader("./crowd.abi.json", "");
+  const contract = await contract_loader.getContract(
+    "erd1qqqqqqqqqqqqqpgqaw3nz7myt95yufvkcruucay8y5fzvpamdynspmftsr"
+  );
+
+  const num = new BigUIntValue(100000);
+
+  const sm_interaction = new Interaction(
+    contract,
+    new ContractFunction("factorial"),
+    [num]
+  );
+
+  ContractQueryRunner;
+  logger.log(`Contract loader: ${JSON.stringify(contract)}`);
+  logger.log(
+    `Contract loader: ${JSON.stringify(contract.getEndpoint("addLiquidity"))}`
+  );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
