@@ -1,18 +1,21 @@
 /* eslint-disable eol-last */
-import { Scalar, CustomScalar } from "@nestjs/graphql";
-import { Kind } from "graphql";
+import { Scalar, CustomScalar } from '@nestjs/graphql';
+import { Kind } from 'graphql';
 
-@Scalar("BufferCustom", (type) => Buffer)
+@Scalar('BufferCustom', (type) => Buffer)
 export class BufferCustomScalar implements CustomScalar<string, Buffer> {
-  description = "Address custom type";
+  description = 'Address custom type';
 
   parseValue(value: unknown): Buffer {
-    return Buffer.from(value as string, "hex"); // value from the client
+    return Buffer.from(value as string, 'hex'); // value from the client
   }
 
   serialize(value: any): string {
     const buffer = Buffer.from(value);
-    return "0x" + buffer.toString("hex");
+    if (buffer.length > 0) {
+      return '0x' + buffer.toString('hex');
+    }
+    return '';
   }
 
   parseLiteral(ast: any) {
