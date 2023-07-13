@@ -39,6 +39,14 @@ export class ApiConfigService {
     return contractAddresses;
   }
 
+  getGeneralQuery(key: string): string {
+    const value = this.configService.get<string>(`general.${key}`);
+    if (!value) {
+      throw new Error(`No general query present - ${key}`);
+    }
+    return value;
+  }
+
   getSwaggerUrls(): string[] {
     const swaggerUrls = this.configService.get<string[]>('urls.swagger');
     if (!swaggerUrls) {

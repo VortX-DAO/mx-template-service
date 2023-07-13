@@ -1,12 +1,4 @@
 type General {
-  getContractAddresses: [Contract]
-}
-
-type Query {
-  general: General
-}
-
-type Contract {
-  name: String
-  address: String
+  vxdToken: String
+  lqashToken: String
 }
