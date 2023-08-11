@@ -2,9 +2,9 @@
 import { Scalar, CustomScalar } from '@nestjs/graphql';
 import { Kind } from 'graphql';
 
-@Scalar('BufferCustom', (type) => Buffer)
-export class BufferCustomScalar implements CustomScalar<string, Buffer> {
-  description = 'Address custom type';
+@Scalar('HexCustom', (type) => Buffer)
+export class HexCustomScalar implements CustomScalar<string, Buffer> {
+  description = 'Hex custom type';
 
   parseValue(value: unknown): Buffer {
     return Buffer.from(value as string, 'hex'); // value from the client
@@ -12,10 +12,7 @@ export class BufferCustomScalar implements CustomScalar<string, Buffer> {
 
   serialize(value: any): string {
     const buffer = Buffer.from(value);
-    if (buffer.length > 0) {
-      return '0x' + buffer.toString('hex');
-    }
-    return '';
+    return buffer.toString('hex');
   }
 
   parseLiteral(ast: any) {

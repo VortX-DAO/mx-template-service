@@ -1,3 +1,0 @@
-type GQLAddress {
-  bech32: String
-}

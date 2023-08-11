@@ -1,11 +1,11 @@
 /* eslint-disable eol-last */
-import { Address } from "@multiversx/sdk-core/out";
-import { Scalar, CustomScalar } from "@nestjs/graphql";
-import { Kind } from "graphql";
+import { Address } from '@multiversx/sdk-core/out';
+import { Scalar, CustomScalar } from '@nestjs/graphql';
+import { Kind } from 'graphql';
 
-@Scalar("AddressCustom", (type) => Address)
+@Scalar('AddressCustom', (type) => Address)
 export class AddressCustomScalar implements CustomScalar<string, Address> {
-  description = "Address custom type";
+  description = 'Address custom type';
 
   parseValue(value: unknown): Address {
     return Address.fromString(value as string); // value from the client
@@ -13,7 +13,7 @@ export class AddressCustomScalar implements CustomScalar<string, Address> {
 
   serialize(value: any): string {
     // return value.bech32();
-    if (typeof value.bech32 !== "function") {
+    if (typeof value.bech32 !== 'function') {
       return value.bech32;
     } else {
       return value.bech32();

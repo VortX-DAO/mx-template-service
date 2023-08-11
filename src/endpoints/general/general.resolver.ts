@@ -7,13 +7,8 @@ import { GeneralService } from './general.service';
 export class GeneralResolver {
   constructor(private readonly generalService: GeneralService) { }
   @ResolveField()
-  vxdToken() {
-    return this.generalService.vxdToken();
-  }
-
-  @ResolveField()
-  lqashToken() {
-    return this.generalService.lqashToken();
+  getContractAddresses() {
+    return this.generalService.getContractAddresses();
   }
 }
 

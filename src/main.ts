@@ -123,6 +123,62 @@ async function bootstrap() {
     const queueWorkerApp = await NestFactory.create(QueueWorkerModule);
     await queueWorkerApp.listen(8000);
   }
+
+  const logger = new Logger("Bootstrapper");
+
+  LoggerInitializer.initialize(logger);
+
+  const contract_loader = new ContractLoader("./crowd.abi.json", "");
+  const contract = await contract_loader.getContract(
+    "erd1qqqqqqqqqqqqqpgqaw3nz7myt95yufvkcruucay8y5fzvpamdynspmftsr"
+  );
+
+  const num = new BigUIntValue(100000);
+
+  const sm_interaction = new Interaction(
+    contract,
+    new ContractFunction("factorial"),
+    [num]
+  );
+
+  ContractQueryRunner;
+  logger.log(`Contract loader: ${JSON.stringify(contract)}`);
+  logger.log(
+    `Contract loader: ${JSON.stringify(contract.getEndpoint("addLiquidity"))}`
+  );
+      //  const pubSubApp = await NestFactory.createMicroservice<MicroserviceOptions>(
+    //   PubSubListenerModule,
+  //   {
+  //     transport: Transport.REDIS,
+  //     options: {
+  //       host: apiConfigService.getRedisUrl(),
+  //       port: 6379,
+  //       retryAttempts: 100,
+  //       retryDelay: 1000,
+  //       retryStrategy: () => 1000,
+  //     },
+  //   },
+  // );
+  // pubSubApp.useLogger(pubSubApp.get(WINSTON_MODULE_NEST_PROVIDER));
+  // pubSubApp.useWebSocketAdapter(new SocketAdapter(pubSubApp));
+  // // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  // pubSubApp.listen();
+  //
+  // logger.log(
+  //   `Public API active: ${apiConfigService.getIsPublicApiFeatureActive()}`,
+  // );
+  // logger.log(
+  //   `Private API active: ${apiConfigService.getIsPrivateApiFeatureActive()}`,
+  // );
+  // logger.log(
+  //   `Transaction processor active: ${apiConfigService.getIsTransactionProcessorFeatureActive()}`,
+  // );
+  // logger.log(
+  //   `Cache warmer active: ${apiConfigService.getIsCacheWarmerFeatureActive()}`,
+  // );
+  // logger.log(
+  //   `Queue worker active: ${apiConfigService.getIsQueueWorkerFeatureActive()}`,
+  // );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

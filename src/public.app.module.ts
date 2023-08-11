@@ -24,7 +24,6 @@ import { BufferCustomScalar } from "./graphql/scalars/BufferCustom";
       installSubscriptionHandlers: true,
       playground: true,
       introspection: true,
-      allowBatchedHttpRequests: true,
       definitions: {
         path: join(process.cwd(), "src/graphql/graphql.ts"),
         outputAs: "class",
