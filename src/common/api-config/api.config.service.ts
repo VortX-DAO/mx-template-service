@@ -14,6 +14,24 @@ export class ApiConfigService {
     return apiUrl;
   }
 
+  cacheTTLNoParamFunc(): number {
+    const ttl = this.configService.get<number>('defaultCacheTTLNoParramFunc');
+    if (!ttl) {
+      throw new Error('cahce TTL no param func');
+    }
+
+    return ttl;
+  }
+
+  cacheTTLParamsFunc(): number {
+    const ttl = this.configService.get<number>('defaultCacheTTLParramFunc');
+    if (!ttl) {
+      throw new Error('cahce TTL no param func');
+    }
+
+    return ttl;
+  }
+
   getContractAbiPath(key: string): string {
     const contractApiPath = this.configService.get<string>(`abi.${key}`);
     if (!contractApiPath) {

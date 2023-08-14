@@ -2,7 +2,7 @@
 import { Scalar, CustomScalar } from '@nestjs/graphql';
 import { Kind } from 'graphql';
 
-@Scalar('HexCustom', (type) => Buffer)
+@Scalar('Hex', (type) => Buffer)
 export class HexCustomScalar implements CustomScalar<string, Buffer> {
   description = 'Hex custom type';
 
