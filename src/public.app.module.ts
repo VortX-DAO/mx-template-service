@@ -12,12 +12,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AddressCustomScalar } from './graphql/scalars/AddressCustom';
 import { HexCustomScalar } from './graphql/scalars/HexCustom';
+import { MxEnumCustomScalar } from './graphql/scalars/MxEnumCustom';
 
 @Module({
   imports: [
     LoggingModule,
     EndpointsServicesModule,
-    // EndpointsControllersModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
@@ -35,7 +35,8 @@ import { HexCustomScalar } from './graphql/scalars/HexCustom';
     DynamicModuleUtils.getNestJsApiConfigService(),
     AddressCustomScalar,
     HexCustomScalar,
+    MxEnumCustomScalar,
   ],
   exports: [EndpointsServicesModule],
 })
-export class PublicAppModule {}
+export class PublicAppModule { }
