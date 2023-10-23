@@ -1,10 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ttls, DEFAULT_TTL } from './ttl.config';
 
 @Injectable()
 export class ApiConfigService {
   constructor(private readonly configService: ConfigService) {}
 
+  cacheTTL(contractName: string, functionName: string): number {
+    let ttl = ttls.get(`${contractName}__${functionName}`);
+    if (ttl != undefined) {
+      return ttl;
+    }
+
+    const defaultTTL =
+      this.configService.get<number>('defaultCacheTTLNoParramFunc') ||
+      DEFAULT_TTL;
+    return defaultTTL;
+  }
   getApiUrl(): string {
     const apiUrl = this.configService.get<string>('urls.api');
     if (!apiUrl) {

@@ -13,6 +13,7 @@
     "start:devnet:watch": "npm run generate-typings && npm run copy-devnet-config & nest start --watch",
     "start:devnet:debug": "npm run generate-typings && npm run copy-devnet-config & nest start --watch --debug",
     "start:testnet": "npm run generate-typings && npm run copy-testnet-config & nest start",
+    "start:local": "npm run generate-typings && npm run copy-local-config & nest start",
     "start:testnet:watch": "npm run generate-typings && npm run copy-testnet-config & nest start --watch",
     "start:testnet:debug": "npm run generate-typings && npm run copy-testnet-config & nest start --watch --debug",
     "start:mainnet": "npm run generate-typings && npm run copy-mainnet-config & nest start",
@@ -27,7 +28,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "copy-devnet-config": "cp ./config/config.devnet.yaml ./config/config.yaml",
+    "copy-devnet-config": "cp ./config/config.local.yaml ./config/config.yaml",
     "copy-testnet-config": "cp ./config/config.testnet.yaml ./config/config.yaml",
     "copy-mainnet-config": "cp ./config/config.mainnet.yaml ./config/config.yaml",
     "copy-custom-config": "cp ./config/config.custom.yaml ./config/config.yaml"
